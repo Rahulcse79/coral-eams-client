@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"coral-eams-client/internal/logger"
+	"coral-eams-client/internal/system"
 )
 
 type Config struct {
@@ -44,4 +45,7 @@ func main() {
 	}
 
 	logger.Info(fmt.Sprintf("Coral EAMS Client Started on %s:%d", config.HostName, config.Port))
+
+	sysInfo := system.CollectSystemInfo()
+	logger.Info(fmt.Sprintf("Collected system info: %+v\n", sysInfo))
 }

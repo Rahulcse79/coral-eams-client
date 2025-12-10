@@ -5,6 +5,7 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
+
 	"coral-eams-client/internal/logger"
 )
 
@@ -36,7 +37,7 @@ func getWindowsSoftware() []string {
 	out, err := exec.Command("powershell", "-Command",
 		`Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName`).Output()
 	if err != nil {
-		logger.Error(err)
+		logger.Error("Failed to fetch Windows installed software", "error", err)
 		return list
 	}
 
@@ -55,7 +56,7 @@ func getLinuxSoftware() []string {
 
 	out, err := exec.Command("bash", "-c", "dpkg -l 2>/dev/null || rpm -qa 2>/dev/null").Output()
 	if err != nil {
-		logger.Error(err)
+		logger.Error("Failed to fetch Linux installed software", "error", err)
 		return list
 	}
 
@@ -73,7 +74,7 @@ func getMacSoftware() []string {
 	var list []string
 	out, err := exec.Command("bash", "-c", "system_profiler SPApplicationsDataType | grep 'Location'").Output()
 	if err != nil {
-		logger.Error(err)
+		logger.Error("Failed to fetch macOS installed software", "error", err)
 		return list
 	}
 
