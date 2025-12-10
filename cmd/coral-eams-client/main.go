@@ -29,7 +29,6 @@ func loadConfig(filePath string) (*Config, error) {
 }
 
 func main() {
-
 	config, err := loadConfig("config.json")
 	if err != nil {
 		fmt.Println("Error loading config:", err)
@@ -39,7 +38,7 @@ func main() {
 	logger.InitLogger(config.LogFileName)
 
 	if config.LogFileName != "" {
-		logger.Info(fmt.Sprintf("Coral EAMS Client Started and log file created:", config.LogFileName))
+		fmt.Printf("Coral EAMS Client Started and log file created: %s\n", config.LogFileName)
 	} else {
 		fmt.Println("Coral EAMS Client Started but log file name is empty")
 	}
