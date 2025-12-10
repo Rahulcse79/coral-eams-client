@@ -1,0 +1,27 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Build directories
+/build/
+bin/
+
+# Logs
+*.log
+
+# Config or env files (optional, if you don't want to push real config)
+.env
+config.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE / editor folders
+.idea/
+.vscode/
