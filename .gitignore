@@ -1,5 +1,5 @@
 # Binaries for programs and plugins
-*.exe
+# *.exe
 *.exe~
 *.dll
 *.so
@@ -8,8 +8,8 @@
 *.out
 
 # Build directories
-/build/
-bin/
+# /build/
+# bin/
 
 # Logs
 *.log
