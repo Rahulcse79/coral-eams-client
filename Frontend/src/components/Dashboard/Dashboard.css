@@ -1,0 +1,217 @@
+:root {
+  --bg: #0f1724; /* dark background for a modern look */
+  --panel: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  --card-bg: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.02);
+  --radius: 14px;
+
+  --primary: #5b8cff; /* denim blue */
+  --primary-2: #7ea9ff;
+  --accent: #7ef2c7; /* mint */
+  --accent-2: #33d69f;
+  --warn: #ffb86b;
+  --danger: #ff6b6b;
+
+  --text-1: #e6eef8;
+  --text-2: #a8bfdd;
+  --muted: #9aaac0;
+
+  --shadow: 0 10px 30px rgba(2,6,23,0.6);
+  --glow: 0 6px 24px rgba(91,140,255,0.12);
+  --gap: 22px;
+}
+
+/* Gradient background */
+body .eams-home-page {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(91,140,255,0.08), transparent),
+              radial-gradient(1000px 500px at 90% 90%, rgba(51,214,159,0.04), transparent),
+              var(--bg);
+}
+
+
+/* --------------------------------------
+   PAGE WRAPPER (DOESN’T BREAK ON DATA)
+---------------------------------------*/
+.eams-home-page {
+  padding: 28px;
+  min-height: 100vh;
+  display: grid;
+  gap: var(--gap);
+  box-sizing: border-box;
+  grid-template-columns: 1fr; /* mobile default */
+  color: var(--text-1);
+}
+
+/* --------------------------------------
+   CARD SECTIONS
+---------------------------------------*/
+.eams-home-page section {
+  background: var(--panel);
+  padding: 22px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 120px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.eams-home-page section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(2,6,23,0.45);
+}
+
+/* --------------------------------------
+   SECTION TITLES
+---------------------------------------*/
+.eams-home-page h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  margin: 0 0 6px 0;
+  letter-spacing: 0.2px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: -2px;
+}
+
+/* --------------------------------------
+   HARDWARE SECTION FULL-WIDTH
+---------------------------------------*/
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .layout-grid {
+    grid-template-columns: 2fr 1fr; /* main + side */
+  }
+}
+
+/* make a full-width panel for hardware */
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* --------------------------------------
+   COLORFUL BOXES
+---------------------------------------*/
+.gloss-box {
+  background: linear-gradient(90deg, rgba(91,140,255,0.06), rgba(51,214,159,0.02));
+  padding: 14px;
+  border-radius: 10px;
+  border-left: 4px solid rgba(91,140,255,0.35);
+  box-shadow: 0 6px 22px rgba(2,6,23,0.45);
+}
+
+/* --------------------------------------
+   LIST ITEMS
+---------------------------------------*/
+.list-item {
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.03);
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* --------------------------------------
+   INTERNAL CARD GRID
+---------------------------------------*/
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+
+/* SMALL CARDS */
+.kpi-card {
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.48);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.kpi-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(91,140,255,0.08); }
+
+.kpi-title { font-weight: 700; color: var(--muted); font-size: 13px; }
+.kpi-value { font-size: 20px; font-weight: 800; color: var(--text-1); }
+.kpi-sub { color: var(--text-2); font-size: 12px; }
+
+/* --------------------------------------
+   TABLE FIXES (PREVENT OVERFLOW)
+---------------------------------------*/
+/* responsive table */
+.table-wrapper { overflow-x: auto; }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px; /* helps layout on wide screens */
+}
+.table th, .table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-2);
+}
+.table th { color: var(--text-1); font-weight: 700; }
+
+/* --------------------------------------
+   BADGES
+---------------------------------------*/
+.chip {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+}
+.chip.good { background: linear-gradient(90deg,var(--accent),var(--accent-2)); color: #042017; }
+.chip.warn { background: linear-gradient(90deg,var(--warn), #ffd7a8); color: #3a2b00; }
+.chip.danger { background: linear-gradient(90deg,#ff7b7b,#ff4d4d); color: white; }
+
+/* Buttons & Modal */
+.btn-primary {
+  background: linear-gradient(90deg,var(--primary),var(--primary-2));
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn-ghost { background: transparent; color: var(--text-1); border: 1px solid rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 10px; }
+
+.modal-backdrop {
+  position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,0.6); z-index: 9999;
+}
+.modal {
+  width: min(720px, 96%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px; padding: 18px; box-shadow: 0 20px 60px rgba(2,6,23,0.7);
+}
+
+/* small helpers */
+.muted { color: var(--muted); }
+.right { text-align: right; }
+
+@media (max-width: 640px) {
+  .layout-grid { grid-template-columns: 1fr; }
+  .kpi-value { font-size: 18px; }
+}
+

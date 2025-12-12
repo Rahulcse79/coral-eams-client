@@ -1,0 +1,79 @@
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  IconButton,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import "./Home.css";
+
+export default function Home() {
+  const [assetsList, setAssetsList] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const dummyAssets = [
+      { id: 1, mac_address: "00:1A:2B:3C:4D:5E", device: "MacBook Air" },
+      { id: 2, mac_address: "2C:3E:CF:77:98:E1", device: "Linux server" },
+      { id: 3, mac_address: "28:CF:E9:AA:12:BC", device: "Windows laptop" },
+    ];
+    setAssetsList(dummyAssets);
+  }, []);
+
+  return (
+    <div className="v-eams-home-page">
+      <Card className="v-asset-card" variant="outlined">
+        <CardContent>
+          <Typography variant="h6" className="v-card-title">
+            Assets List
+          </Typography>
+
+          <Table className="v-asset-table">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <b>ID</b>
+                </TableCell>
+                <TableCell>
+                  <b>Device</b>
+                </TableCell>
+                <TableCell>
+                  <b>MAC Address</b>
+                </TableCell>
+                <TableCell align="center">
+                  <b>Action</b>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {assetsList.map((item) => (
+                <TableRow key={item.id} className="v-table-row">
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>{item.device}</TableCell>
+                  <TableCell>{item.mac_address}</TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      color="primary"
+                      onClick={() => navigate("/dashboard")}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
