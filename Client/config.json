@@ -2,7 +2,7 @@
   "logFileName": "coral-eams-logs.log",
   "port": 8080,
   "hostName": "localhost",
-  "schedulerTimeInterval": 1,
+  "schedulerTimeInterval": 1440,
   "SenderURL": "http://localhost:7000/receive",
   "AuthToken": "Opaque 00aa5095-4fa4-4816-8381-5792d1dbe24f"
 }

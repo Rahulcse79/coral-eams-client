@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PROJECT_ROOT="/Users/rahulsingh/Documents/GitHub/coral-eams-client"
+PROJECT_ROOT="/Users/rahulsingh/Documents/GitHub/coral-eams-client/Client"
 
 echo "Building macOS binary..."
 GOOS=darwin GOARCH=amd64 go build -o coral-eams-client-mac $PROJECT_ROOT/cmd/coral-eams-client

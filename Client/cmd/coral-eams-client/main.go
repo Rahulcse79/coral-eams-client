@@ -50,37 +50,56 @@ func main() {
 		logger.InitLogger("coral-eams-client-log.log")
 	}
 
-	logger.Info(fmt.Sprintf("Coral EAMS Client Started on %s:%d", config.HostName, config.Port))
+	logger.Info(fmt.Sprintf(
+		"Coral EAMS Client Started on %s:%d",
+		config.HostName,
+		config.Port,
+	))
 
 	sysInfo := system.CollectSystemInfo()
-	logger.Info(fmt.Sprintf("Collected system info: %+v\n", sysInfo))
+	logger.Info("Collected system info")
 
-	macAddress := system.CollectMacAddressInfo()
+	macInfo := system.CollectMacAddressInfo()
 	firstMAC := "none"
-	if macAddress != nil && len(macAddress.MacAddress) > 0 && len(macAddress.MacAddress[0]) > 0 {
-		firstMAC = macAddress.MacAddress[0]
+
+	if macInfo != nil &&
+		len(macInfo.MacAddress) > 0 &&
+		len(macInfo.MacAddress[0]) > 0 {
+		firstMAC = macInfo.MacAddress[0]
 	}
-	logger.Info(fmt.Sprintf("Collected macAddress info: %s", firstMAC))
 
-	logger.Info("Sender initialized", "serverURL", config.SenderURL+"/"+firstMAC)
-	if config.SenderURL != "" {
-		s := sender.NewSender(config.SenderURL+"/"+firstMAC, config.AuthToken)
-		interval := config.SchedulerTimeInterval
-		if interval <= 0 {
-			interval = 5
-			logger.Warn("Invalid schedulerTimeInterval — using default 5 minutes")
-		}
+	logger.Info("Collected macAddress info", "mac", firstMAC)
 
-		logger.Info("Scheduler initialized", "intervalMinutes", config.SchedulerTimeInterval)
-		cronJob := scheduler.NewCronJob(interval)
-		cronJob.Start(func() {
-			logger.Info("Starting scheduled data send")
-			sender.CollectAndSendData(sysInfo, s)
-		})
-
-		select {}
-
-	} else {
+	if config.SenderURL == "" {
 		logger.Warn("Sender URL is empty in configuration")
+		select {}
 	}
+
+	fullURL := config.SenderURL + "/" + firstMAC
+	logger.Info("Sender initialized", "serverURL", fullURL)
+
+	s := sender.NewSender(fullURL, config.AuthToken)
+
+	interval := config.SchedulerTimeInterval
+	if interval <= 0 {
+		interval = 1440
+		logger.Warn("Invalid schedulerTimeInterval — using default one day interval")
+	}
+
+	logger.Info(
+		"Scheduler initialized",
+		"intervalMinutes", interval,
+		"intervalHours", interval/60,
+	)
+
+	logger.Info("Sending system info immediately on startup")
+	sender.CollectAndSendData(sysInfo, s)
+
+	cronJob := scheduler.NewCronJob(interval)
+	cronJob.Start(func() {
+		logger.Info("Starting scheduled data send")
+		sender.CollectAndSendData(sysInfo, s)
+	})
+
+	select {}
 }
