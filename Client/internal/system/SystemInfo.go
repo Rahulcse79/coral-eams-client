@@ -5,13 +5,25 @@ import (
 )
 
 type SystemInfo struct {
-	Hardware   *HardwareInfo     `json:"hardware"`
-	OS         *OSInfo           `json:"os"`
-	Network    []*NetworkInfo    `json:"network"`
-	Software   []string          `json:"software"`
-	License    *LicenseInfo      `json:"license"`
-	Processes  []ProcessInfo     `json:"processes"`
-	Services   []ServiceInfo     `json:"services"`
+	Hardware  *HardwareInfo  `json:"hardware"`
+	OS        *OSInfo        `json:"os"`
+	Network   []*NetworkInfo `json:"network"`
+	Software  []string       `json:"software"`
+	License   *LicenseInfo   `json:"license"`
+	Processes []ProcessInfo  `json:"processes"`
+	Services  []ServiceInfo  `json:"services"`
+}
+
+type MacAddress struct {
+	MacAddress []string `json:"MacAddress"`
+}
+
+func CollectMacAddressInfo() *MacAddress {
+
+	macAddress := &MacAddress{}
+	macAddress.MacAddress = GetAllMACAddresses()
+
+	return macAddress
 }
 
 func CollectSystemInfo() *SystemInfo {

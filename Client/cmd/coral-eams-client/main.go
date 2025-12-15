@@ -1,19 +1,19 @@
 package main
 
 import (
+	"coral-eams-client/internal/logger"
+	"coral-eams-client/internal/scheduler"
+	"coral-eams-client/internal/sender"
+	"coral-eams-client/internal/system"
 	"encoding/json"
 	"fmt"
 	"os"
-	"coral-eams-client/internal/logger"
-	"coral-eams-client/internal/system"
-	"coral-eams-client/internal/sender"
-	"coral-eams-client/internal/scheduler"
 )
 
 type Config struct {
-	LogFileName string `json:"logFileName"`
-	Port        int    `json:"port"`
-	HostName    string `json:"hostName"`
+	LogFileName           string `json:"logFileName"`
+	Port                  int    `json:"port"`
+	HostName              string `json:"hostName"`
 	SchedulerTimeInterval int    `json:"schedulerTimeInterval"`
 	SenderURL             string `json:"SenderURL"`
 	AuthToken             string `json:"AuthToken"`
@@ -54,24 +54,31 @@ func main() {
 
 	sysInfo := system.CollectSystemInfo()
 	logger.Info(fmt.Sprintf("Collected system info: %+v\n", sysInfo))
-	
-	logger.Info("Sender initialized", "serverURL", config.SenderURL)
+
+	macAddress := system.CollectMacAddressInfo()
+	firstMAC := "none"
+	if macAddress != nil && len(macAddress.MacAddress) > 0 && len(macAddress.MacAddress[0]) > 0 {
+		firstMAC = macAddress.MacAddress[0]
+	}
+	logger.Info(fmt.Sprintf("Collected macAddress info: %s", firstMAC))
+
+	logger.Info("Sender initialized", "serverURL", config.SenderURL+"/"+firstMAC)
 	if config.SenderURL != "" {
-        s := sender.NewSender(config.SenderURL, config.AuthToken)
-        interval := config.SchedulerTimeInterval
-	    if interval <= 0 {
-		    interval = 5
-		    logger.Warn("Invalid schedulerTimeInterval — using default 5 minutes")
-	    }
-    
-	    logger.Info("Scheduler initialized", "intervalMinutes", config.SchedulerTimeInterval)
-	    cronJob := scheduler.NewCronJob(interval)
-	    cronJob.Start(func() {
-		    logger.Info("Starting scheduled data send")
-		    sender.CollectAndSendData(sysInfo, s)
-	   })
-	
-	   select {}
+		s := sender.NewSender(config.SenderURL+"/"+firstMAC, config.AuthToken)
+		interval := config.SchedulerTimeInterval
+		if interval <= 0 {
+			interval = 5
+			logger.Warn("Invalid schedulerTimeInterval — using default 5 minutes")
+		}
+
+		logger.Info("Scheduler initialized", "intervalMinutes", config.SchedulerTimeInterval)
+		cronJob := scheduler.NewCronJob(interval)
+		cronJob.Start(func() {
+			logger.Info("Starting scheduled data send")
+			sender.CollectAndSendData(sysInfo, s)
+		})
+
+		select {}
 
 	} else {
 		logger.Warn("Sender URL is empty in configuration")

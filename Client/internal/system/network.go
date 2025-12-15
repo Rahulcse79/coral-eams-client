@@ -106,3 +106,22 @@ func GetPrimaryMAC() string {
 
 	return ""
 }
+
+func GetAllMACAddresses() []string {
+	var macs []string
+	defer logger.Info("MAC address collection completed", "count", len(macs))
+
+	interfaces, err := net.Interfaces()
+	if err != nil {
+		logger.Error("Failed to get network interfaces", "error", err)
+		return macs
+	}
+
+	for _, iface := range interfaces {
+		if len(iface.HardwareAddr) > 0 {
+			macs = append(macs, iface.HardwareAddr.String())
+		}
+	}
+
+	return macs
+}
