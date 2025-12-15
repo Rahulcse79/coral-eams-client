@@ -21,9 +21,9 @@ export default function Home() {
 
   useEffect(() => {
     const dummyAssets = [
-      { id: 1, mac_address: "f0:79:60:04:f3:16", device: "MacBook Air" },
+      { id: 1, mac_address: "00:ff:d3:97:d9:62", device: "MacBook Air" },
       { id: 2, mac_address: "00:07:32:bf:25:7e", device: "Linux server" },
-      { id: 3, mac_address: "28:CF:E9:AA:12:BC", device: "Windows laptop" },
+      { id: 3, mac_address: "00:ff:d3:97:d9:62", device: "Windows laptop" },
     ];
     setAssetsList(dummyAssets);
   }, []);
