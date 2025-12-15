@@ -15,12 +15,12 @@ app.use(express.json({ limit: "10mb" }));
 app.use(morgan("dev"));
 
 // Receive data from Go client
-app.post("/receive", (req, res) => {
+app.post("/receive/:macAddress", (req, res) => {
   try {
+    const { macAddress } = req.params;
     console.log("📥 Received Data from Go Client:");
-    // console.log(JSON.stringify(req.body, null, 2));
 
-    storedSystemInfo = req.body; 
+    storedSystemInfo[macAddress] = req.body; 
 
     return res.status(200).json({
       success: true,
@@ -36,8 +36,9 @@ app.post("/receive", (req, res) => {
 });
 
 // Send system info to frontend
-app.get("/system-info", (req, res) => {
-  return res.json(storedSystemInfo || {});  // FIXED: prevent 500
+app.get("/system-info/:macAddress", (req, res) => {
+  const { macAddress } = req.params;
+  return res.json(storedSystemInfo[macAddress] || {});
 });
 
 const PORT = 7000;

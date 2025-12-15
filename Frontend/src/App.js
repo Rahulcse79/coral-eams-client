@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:macAddress" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,10 +7,12 @@ import SoftwareList from "../Cards/SoftwareList";
 import ServicesTable from "../Cards/ServicesTable";
 import ProcessesTable from "../Cards/ProcessesTable";
 import { fetchSystemInfo } from "../../Api/Api";
+import { useParams } from "react-router-dom";
 import "./Dashboard.css";
 
 export default function Dashboard() {
   
+  const { macAddress } = useParams();
   const [networkInfo, setNetworkInfo] = useState([]);
   const [licenseInfo, setLicenseInfo] = useState(null);
   const [osInfo, setOSInfo] = useState(null);
@@ -21,8 +23,9 @@ export default function Dashboard() {
 
   useEffect(() => {
 
+    if (!macAddress) return;
     async function loadData() {
-      const data = await fetchSystemInfo();
+      const data = await fetchSystemInfo(macAddress);
       if (!data) return;
 
       setHardwareData(data.hardware);

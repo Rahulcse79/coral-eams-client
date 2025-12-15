@@ -3,6 +3,6 @@
   "port": 8080,
   "hostName": "localhost",
   "schedulerTimeInterval": 1,
-  "SenderURL": "http://localhost:7000/receive",
+  "SenderURL": "http://localhost:7000/receive/00:1A:2B:3C:4D:5E",
   "AuthToken": "Opaque 00aa5095-4fa4-4816-8381-5792d1dbe24f"
 }

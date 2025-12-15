@@ -1,6 +1,6 @@
-export async function fetchSystemInfo() {
+export async function fetchSystemInfo(macAddress) {
   try {
-    const res = await fetch("http://localhost:7000/system-info");
+    const res = await fetch(`http://localhost:7000/system-info/${macAddress}`);
 
     if (!res.ok) {
       console.error("Failed to fetch system info, status:", res.status);

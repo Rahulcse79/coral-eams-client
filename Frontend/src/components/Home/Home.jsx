@@ -63,7 +63,7 @@ export default function Home() {
                   <TableCell align="center">
                     <IconButton
                       color="primary"
-                      onClick={() => navigate("/dashboard")}
+                      onClick={() => navigate(`/dashboard/${item.mac_address}`)}
                     >
                       <VisibilityIcon />
                     </IconButton>
